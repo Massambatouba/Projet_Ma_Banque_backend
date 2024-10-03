@@ -7,6 +7,8 @@ import com.makarimal.mabanque.entities.*;
 import com.makarimal.mabanque.exceptions.SoldeInsufisantException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,12 @@ public class OperationServiceImp implements IOperationService{
     private ICompte iCompteService;
     @Autowired
     ModelMapper modelMapper;
+
+    @Override
+    public Page<Operation> listeOperation(String codeCompte, Pageable pageable) {
+        return operationRepository.listOperation(codeCompte, pageable);
+    }
+
     @Override
     public void verser(String codeCompte, double montant) {
         Compte cp = iCompteService.consulterCompte(codeCompte);
